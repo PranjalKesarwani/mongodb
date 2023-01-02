@@ -25,7 +25,14 @@ const playlistSchema = new mongoose.Schema({
         lowercase: true,
         enum:["frontend","backend","database"]
     },
-    videos: Number,
+    videos: {
+        type:Number,
+        validator(value){
+            if(value.length<0){
+                throw new Error("number of videos should be positive");
+            }
+        }
+    },
     author: String,
     active: Boolean,
     date:{
@@ -72,7 +79,7 @@ const createDocument = async ()=>{
            
         // })
         const cssPlaylist = new Playlist({
-            name: "tailwind Css",
+            name: "GoLang",
             ctype: "frontEnd",
             videos: 4,
             author: "Thapa Technical",
