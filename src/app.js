@@ -38,25 +38,67 @@ const Playlist = new mongoose.model("Playlist", playlistSchema); //Playlist is i
 
 const createDocument = async ()=>{
     try {
-        const reactPlaylist = new Playlist({
-            name: "Node JS",
-            ctype: "Back-End",
-            videos: 50,
-            author: "Thapa Technical",
-            active: true,
+        // const jsPlaylist = new Playlist({
+        //     name: "javascript",
+        //     ctype: "Front-End",
+        //     videos: 150,
+        //     author: "Thapa Technical",
+        //     active: true,
            
-        })
+        // })
+        // const mongoPlaylist = new Playlist({
+        //     name: "Node JS",
+        //     ctype: "Database",
+        //     videos: 10,
+        //     author: "Thapa Technical",
+        //     active: true,
+           
+        // })
+        // const mongooosePlaylist = new Playlist({
+        //     name: "Mongoose JS",
+        //     ctype: "Database",
+        //     videos: 4,
+        //     author: "Thapa Technical",
+        //     active: true,
+           
+        // })
+        // const expressPlaylist = new Playlist({
+        //     name: "Express JS",
+        //     ctype: "Back-End",
+        //     videos: 20,
+        //     author: "Thapa Technical",
+        //     active: true,
+           
+        // })
 
-        const result=await reactPlaylist.save();
+        // const result=await reactPlaylist.save();
+        // const result=await Playlist.insertMany([jsPlaylist,mongoPlaylist,mongooosePlaylist,expressPlaylist]);
 
-        console.log(result);
+        // console.log(result);
 
     } catch (error) {
         console.log(error);
     }
 }
 
-createDocument();
+// createDocument();
 
 
 // const result=await reactPlaylist.save(); //ye .save() method promise return krta hai so isme async await use kr sakte ho, maine mongoose connect krte waqt use ni kiya but ab harr jagah use krege
+
+
+const getDocument = async ()=>{
+    
+
+    try {
+        const result = await Playlist.find({ctype: "Front-End"}).select({name:1}).limit(1);
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+        
+
+   
+}
+
+getDocument();
