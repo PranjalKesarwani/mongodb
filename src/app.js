@@ -13,9 +13,18 @@ mongoose.connect("mongodb://localhost:27017/ttchannel").then( ()=>{
 const playlistSchema = new mongoose.Schema({
     name: {
         type:String,
-        required: true
+        required: true,
+        unique:true,
+        lowercase:true,
+        trim: true,
+        minlength:2,
+        maxlength:20
     },
-    ctype: String,
+    ctype:{
+        type:String,
+        lowercase: true,
+        enum:["frontend","backend","database"]
+    },
     videos: Number,
     author: String,
     active: Boolean,
@@ -54,14 +63,6 @@ const createDocument = async ()=>{
         //     active: true,
            
         // })
-        // const mongooosePlaylist = new Playlist({
-        //     name: "Mongoose JS",
-        //     ctype: "Database",
-        //     videos: 4,
-        //     author: "Thapa Technical",
-        //     active: true,
-           
-        // })
         // const expressPlaylist = new Playlist({
         //     name: "Express JS",
         //     ctype: "Back-End",
@@ -70,18 +71,26 @@ const createDocument = async ()=>{
         //     active: true,
            
         // })
+        const cssPlaylist = new Playlist({
+            name: "tailwind Css",
+            ctype: "frontEnd",
+            videos: 4,
+            author: "Thapa Technical",
+            active: true,
+           
+        })
 
         // const result=await reactPlaylist.save();
-        // const result=await Playlist.insertMany([jsPlaylist,mongoPlaylist,mongooosePlaylist,expressPlaylist]);
+        const result=await Playlist.insertMany([cssPlaylist]);
 
-        // console.log(result);
+        console.log(result);
 
     } catch (error) {
         console.log(error);
     }
 }
 
-// createDocument();
+createDocument();
 
 
 // const result=await reactPlaylist.save(); //ye .save() method promise return krta hai so isme async await use kr sakte ho, maine mongoose connect krte waqt use ni kiya but ab harr jagah use krege
@@ -92,8 +101,9 @@ const getDocument = async ()=>{
 
     try {
         const result = await Playlist
-        .find({$not:[{ctype:"Back-End"},{videos:{$gt:180}}]})
+        .find({author:"Thapa Technical"})
         .select({name:1})
+        .sort({name:-1});
         // .limit(1);
         console.log(result);
     } catch (error) {
@@ -104,4 +114,32 @@ const getDocument = async ()=>{
    
 }
 
-getDocument();
+// getDocument();
+
+const updateDocument = async (_id)=>{
+    try {
+        
+      const res = await Playlist.findByIdAndUpdate({_id},{$set:{name:"JavaScript"}},{new: true});
+      console.log(res);
+
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// updateDocument('63b2ea183f889522dd6f1d7d');
+
+//deleting the documents
+
+
+const deleteDocument = async (_id)=>{
+    try {
+        const res = await Playlist.findByIdAndDelete({_id});
+        console.log(res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// deleteDocument("63b2c1624369ed691ba34882");
