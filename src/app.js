@@ -92,8 +92,8 @@ const getDocument = async ()=>{
 
     try {
         const result = await Playlist
-        .find({videos: {$gte : 50}})
-        .select({videos:1})
+        .find({$not:[{ctype:"Back-End"},{videos:{$gt:180}}]})
+        .select({name:1})
         // .limit(1);
         console.log(result);
     } catch (error) {
