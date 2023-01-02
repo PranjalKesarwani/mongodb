@@ -1,3 +1,4 @@
+const validator = require("validator");
 const mongoose = require("mongoose");
 mongoose.set('strictQuery',true);
 //connection and creation of new database
@@ -34,6 +35,17 @@ const playlistSchema = new mongoose.Schema({
         }
     },
     author: String,
+    email: {
+        type: String,
+        required:true,
+        unique:true,
+        validate(value){
+                if(!validator.isEmail(value)){
+                        throw new Error("Invalid email")
+                }
+        }
+
+    },
     active: Boolean,
     date:{
         type: Date,
@@ -79,10 +91,11 @@ const createDocument = async ()=>{
            
         // })
         const cssPlaylist = new Playlist({
-            name: "GoLang",
-            ctype: "frontEnd",
+            name: "RubyG",
+            ctype: "backend",
             videos: 4,
             author: "Thapa Technical",
+            email:"pranjalkesarwani1999@gmail.com",
             active: true,
            
         })
